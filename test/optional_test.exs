@@ -65,14 +65,6 @@ defmodule OptionalTest do
     ) == :error
   end
 
-  test "variance of an empty sequence" do
-    assert Optional.variance([]) == :error
-  end
-
-  test "variance of a non-empty sequence" do
-    assert Optional.variance([1, 2, 3]) == {:ok, 2.0 / 3.0}
-  end
-
   test "map2 with two ok values" do
     assert Optional.map2( {:ok, 2}, {:ok, 3}, &(&1 + &2)) == {:ok, 5}
   end
@@ -120,21 +112,6 @@ defmodule OptionalTest do
   test "traverse empty list" do
     assert Optional.traverse([], &(parse_int(&1))) == {:ok, []}
   end
-
-  test "sequence via traverse of list of ok values" do
-    list = [{:ok, 1}, {:ok, 2}, {:ok, 3}]
-    assert Optional.sequence_via_traverse(list) == {:ok, [1,2,3]}
-  end
-
-  test "sequence via traverse of list with one error value" do
-    list = [{:ok, 1}, :error, {:ok, 3}]
-    assert Optional.sequence_via_traverse(list) == :error
-  end
-
-  test "sequence via traverse of empty list" do
-    assert Optional.sequence_via_traverse([]) == {:ok, []}
-  end
-
 
   # alias HandlingErrorsWithoutExceptions.Either, as: Sut
   #
