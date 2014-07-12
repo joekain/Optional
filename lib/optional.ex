@@ -1,11 +1,14 @@
 defmodule Optional do
   def map({:ok, value}, f), do: {:ok, f.(value)}
   def map(:error, _f), do: :error
+  def map({:error, reason}, _f), do: {:error, reason}
 
   def flat_map(:error, _f), do: :error
+  def flat_map({:error, reason}, _f), do: {:error, reason}
   def flat_map({:ok, value}, f), do: f.(value)
 
   def get_or_else(:error, default), do: default
+  def get_or_else({:error, _reason}, default), do: default
   def get_or_else({:ok, value}, _default), do: value
 
   # Is this the best solution?  I don't like that the map produces
